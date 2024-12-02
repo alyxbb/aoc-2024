@@ -19,15 +19,15 @@ fn check_valid(line: &mut Vec<usize>) -> bool {
         }
     }
     let mut last = line.pop().unwrap();
-    while line.len() > 0 {
-        let current = line.pop().unwrap();
+    while let Some(current) = line.pop() {
+        
         let diff = current.abs_diff(last);
         last = current;
-        if diff < 1 || 3 < diff {
+        if !(1..=3).contains(&diff) {
             return false;
         }
     }
-    return true;
+    true
 }
 
 pub fn part_1(input: String) -> Solution {
