@@ -7,9 +7,9 @@ fn parse(input: String) -> (Vec<usize>, Vec<usize>) {
     for line in lines {
         let mut line = line
             .split_whitespace()
-            .map(|x| x.parse::<usize>().expect("failed to parse"));
-        left.push(line.next().expect("failed to parse"));
-        right.push(line.next().expect("failed to parse"));
+            .map(|x| x.parse::<usize>().unwrap());
+        left.push(line.next().unwrap());
+        right.push(line.next().unwrap());
     }
 
     left.sort();
