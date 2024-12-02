@@ -5,9 +5,7 @@ fn parse(input: String) -> (Vec<usize>, Vec<usize>) {
     let mut left = vec![];
     let mut right = vec![];
     for line in lines {
-        let mut line = line
-            .split_whitespace()
-            .map(|x| x.parse::<usize>().unwrap());
+        let mut line = line.split_whitespace().map(|x| x.parse::<usize>().unwrap());
         left.push(line.next().unwrap());
         right.push(line.next().unwrap());
     }
