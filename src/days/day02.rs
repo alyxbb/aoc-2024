@@ -20,7 +20,6 @@ fn check_valid(line: &mut Vec<usize>) -> bool {
     }
     let mut last = line.pop().unwrap();
     while let Some(current) = line.pop() {
-        
         let diff = current.abs_diff(last);
         last = current;
         if !(1..=3).contains(&diff) {

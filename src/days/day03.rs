@@ -8,7 +8,8 @@ pub fn part_1(input: String) -> Solution {
     let mut sol = 0;
 
     for capture in captures {
-        sol += capture.get(1).unwrap().as_str().parse::<usize>().unwrap() * capture.get(2).unwrap().as_str().parse::<usize>().unwrap();
+        sol += capture.get(1).unwrap().as_str().parse::<usize>().unwrap()
+            * capture.get(2).unwrap().as_str().parse::<usize>().unwrap();
     }
     Solution::from(sol)
 }
@@ -26,11 +27,11 @@ pub fn part_2(input: String) -> Solution {
             "don" => enabled = false,
             "mul" => {
                 if enabled {
-                    sol += capture.get(1).unwrap().as_str().parse::<usize>().unwrap() * capture.get(2).unwrap().as_str().parse::<usize>().unwrap();
+                    sol += capture.get(1).unwrap().as_str().parse::<usize>().unwrap()
+                        * capture.get(2).unwrap().as_str().parse::<usize>().unwrap();
                 }
             }
-            _ => panic!()
-            
+            _ => panic!(),
         }
     }
     Solution::from(sol)
