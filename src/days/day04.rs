@@ -15,7 +15,7 @@ pub fn part_1(input: String) -> Solution {
         for i in 0..row.len() - 3 {
             let mut valid = true;
             for (j, char) in SEARCH_WORD.chars().enumerate() {
-                if !(*row.get(i + j).unwrap() == char) {
+                if *row.get(i + j).unwrap() != char {
                     valid = false;
                     break;
                 }
@@ -25,7 +25,7 @@ pub fn part_1(input: String) -> Solution {
             }
             let mut valid = true;
             for (j, char) in SEARCH_WORD.chars().rev().enumerate() {
-                if !(*row.get(i + j).unwrap() == char) {
+                if *row.get(i + j).unwrap() != char {
                     valid = false;
                     break;
                 }
@@ -36,11 +36,11 @@ pub fn part_1(input: String) -> Solution {
         }
     }
 
-    for col in 0..input.get(0).unwrap().len() {
+    for col in 0..input.first().unwrap().len() {
         for i in 0..input.len() - 3 {
             let mut valid: bool = true;
             for (j, char) in SEARCH_WORD.chars().enumerate() {
-                if !(*input.get(i + j).unwrap().get(col).unwrap() == char) {
+                if *input.get(i + j).unwrap().get(col).unwrap() != char {
                     valid = false;
                     break;
                 }
@@ -50,7 +50,7 @@ pub fn part_1(input: String) -> Solution {
             }
             let mut valid = true;
             for (j, char) in SEARCH_WORD.chars().rev().enumerate() {
-                if !(*input.get(i + j).unwrap().get(col).unwrap() == char) {
+                if *input.get(i + j).unwrap().get(col).unwrap() != char {
                     valid = false;
                     break;
                 }
@@ -61,11 +61,11 @@ pub fn part_1(input: String) -> Solution {
         }
     }
 
-    for col in 3..input.get(0).unwrap().len() {
+    for col in 3..input.first().unwrap().len() {
         for i in 0..input.len() - 3 {
             let mut valid: bool = true;
             for (j, char) in SEARCH_WORD.chars().enumerate() {
-                if !(*input.get(i + j).unwrap().get(col - j).unwrap() == char) {
+                if *input.get(i + j).unwrap().get(col - j).unwrap() != char {
                     valid = false;
                     break;
                 }
@@ -75,7 +75,7 @@ pub fn part_1(input: String) -> Solution {
             }
             let mut valid = true;
             for (j, char) in SEARCH_WORD.chars().rev().enumerate() {
-                if !(*input.get(i + j).unwrap().get(col - j).unwrap() == char) {
+                if *input.get(i + j).unwrap().get(col - j).unwrap() != char {
                     valid = false;
                     break;
                 }
@@ -86,11 +86,11 @@ pub fn part_1(input: String) -> Solution {
         }
     }
 
-    for col in 0..input.get(0).unwrap().len() - 3 {
+    for col in 0..input.first().unwrap().len() - 3 {
         for i in 0..input.len() - 3 {
             let mut valid: bool = true;
             for (j, char) in SEARCH_WORD.chars().enumerate() {
-                if !(*input.get(i + j).unwrap().get(col + j).unwrap() == char) {
+                if *input.get(i + j).unwrap().get(col + j).unwrap() != char {
                     valid = false;
                     break;
                 }
@@ -100,7 +100,7 @@ pub fn part_1(input: String) -> Solution {
             }
             let mut valid = true;
             for (j, char) in SEARCH_WORD.chars().rev().enumerate() {
-                if !(*input.get(i + j).unwrap().get(col + j).unwrap() == char) {
+                if *input.get(i + j).unwrap().get(col + j).unwrap() != char {
                     valid = false;
                     break;
                 }
