@@ -20,7 +20,7 @@ fn parse(input: String) -> (Vec<(usize, usize)>, Vec<Vec<usize>>) {
     (rule_res, page_res)
 }
 
-fn check_valid(book: &Vec<usize>, rules: &Vec<(usize, usize)>) -> bool {
+fn check_valid(book: &[usize], rules: &Vec<(usize, usize)>) -> bool {
     for (i, page) in book.iter().enumerate() {
         for rule in rules {
             if rule.0 == *page {
@@ -36,18 +36,15 @@ fn check_valid(book: &Vec<usize>, rules: &Vec<(usize, usize)>) -> bool {
     true
 }
 
-fn sort_book(book: &Vec<usize>, rules: &Vec<(usize, usize)>) -> Vec<usize> {
+fn sort_book(mut old_book: Vec<usize>, rules: &Vec<(usize, usize)>) -> Vec<usize> {
     let mut new_book = vec![];
-    let mut old_book = book.clone();
-    while old_book.len() != 0 {
+    while !old_book.is_empty() {
         for (i, page) in old_book.iter().enumerate() {
             let mut valid = true;
             for rule in rules {
-                if rule.0 == *page {
-                    if old_book.contains(&rule.1) {
-                        valid = false;
-                        break;
-                    }
+                if rule.0 == *page && old_book.contains(&rule.1) {
+                    valid = false;
+                    break;
                 }
             }
             if valid {
@@ -79,7 +76,7 @@ pub fn part_2(input: String) -> Solution {
     let mut sol = 0;
     for book in books {
         if !check_valid(&book, &rules) {
-            let sorted_book = sort_book(&book, &rules);
+            let sorted_book = sort_book(book.clone(), &rules);
             sol += sorted_book.get(book.len() / 2).unwrap();
         }
     }
