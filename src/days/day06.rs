@@ -1,5 +1,7 @@
 use std::{collections::HashSet, vec};
 
+use rayon::prelude::*;
+
 use crate::Solution;
 
 #[derive(PartialEq, Eq, Clone, Copy)]
@@ -139,9 +141,8 @@ pub fn part_1(input: String) -> Solution {
 
 pub fn part_2(input: String) -> Solution {
     let (original_guard, map) = parse(input);
+    let mut visited_squares = HashSet::new();
     let mut guard = original_guard;
-    let mut sol = HashSet::new();
-
     loop {
         let next_pos = guard.get_next_move();
         let Some(row) = map.get(next_pos.1) else {
@@ -152,9 +153,7 @@ pub fn part_2(input: String) -> Solution {
         };
         match square {
             GridSquare::Empty => {
-                if check_loop(&original_guard, &map, next_pos) {
-                    sol.insert(next_pos);
-                }
+                visited_squares.insert(next_pos);
                 guard.pos = next_pos;
             }
             GridSquare::Full => {
@@ -164,7 +163,11 @@ pub fn part_2(input: String) -> Solution {
         }
     }
 
-    sol.remove(&original_guard.pos);
+    visited_squares.remove(&original_guard.pos);
+    let sol = visited_squares
+        .into_par_iter()
+        .filter(|square| check_loop(&original_guard, &map, *square))
+        .count();
 
-    Solution::from(sol.len())
+    Solution::from(sol)
 }
