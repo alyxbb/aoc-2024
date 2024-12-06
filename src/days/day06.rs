@@ -78,9 +78,9 @@ fn parse(input: String) -> (Guard, Vec<Vec<GridSquare>>) {
     (guard, map)
 }
 
-fn check_loop(guard: &Guard, map: &Vec<Vec<GridSquare>>, pos: (usize, usize)) -> bool {
-    let mut map = map.clone();
-    let mut guard = guard.clone();
+fn check_loop(guard: &Guard, map: &[Vec<GridSquare>], pos: (usize, usize)) -> bool {
+    let mut map = map.to_owned();
+    let mut guard = *guard;
     let mut history = vec![];
     map[pos.1][pos.0] = GridSquare::Full;
     history.push(guard);
@@ -139,7 +139,7 @@ pub fn part_1(input: String) -> Solution {
 
 pub fn part_2(input: String) -> Solution {
     let (original_guard, map) = parse(input);
-    let mut guard = original_guard.clone();
+    let mut guard = original_guard;
     let mut sol = HashSet::new();
 
     loop {
