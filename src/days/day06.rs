@@ -78,7 +78,7 @@ fn parse(input: String) -> (Guard, Vec<Vec<GridSquare>>) {
     (guard, map)
 }
 
-fn check_loop(guard: &Guard, map: &Vec<Vec<GridSquare>>,pos:(usize, usize)) -> bool {
+fn check_loop(guard: &Guard, map: &Vec<Vec<GridSquare>>, pos: (usize, usize)) -> bool {
     let mut map = map.clone();
     let mut guard = guard.clone();
     let mut history = vec![];
@@ -99,14 +99,13 @@ fn check_loop(guard: &Guard, map: &Vec<Vec<GridSquare>>,pos:(usize, usize)) -> b
             }
             GridSquare::Full => {
                 guard.dir = guard.dir.rotate();
-            },
+            }
             GridSquare::StartPos => unreachable!(),
         }
         if history.contains(&guard) {
-            return true
+            return true;
         }
         history.push(guard);
-
     }
 }
 
@@ -153,22 +152,19 @@ pub fn part_2(input: String) -> Solution {
         };
         match square {
             GridSquare::Empty => {
-                if check_loop(&original_guard,&map,next_pos) {
+                if check_loop(&original_guard, &map, next_pos) {
                     sol.insert(next_pos);
                 }
                 guard.pos = next_pos;
             }
             GridSquare::Full => {
                 guard.dir = guard.dir.rotate();
-            },
+            }
             GridSquare::StartPos => unreachable!(),
-            
         }
     }
 
     sol.remove(&original_guard.pos);
-
-
 
     Solution::from(sol.len())
 }
