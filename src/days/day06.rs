@@ -96,7 +96,7 @@ fn check_loop(guard: &Guard, map: &[Vec<GridSquare>], pos: (usize, usize)) -> bo
         if next_pos != pos {
             if next_pos.1 >= map_height || next_pos.0 >= map_width {
                 return false;
-            } 
+            }
             let square = map[next_pos.1][next_pos.0];
             match square {
                 GridSquare::Empty => {
