@@ -1,4 +1,7 @@
-use std::{collections::HashSet, vec};
+use std::{
+    collections::{HashMap, HashSet},
+    vec,
+};
 
 use rayon::prelude::*;
 
@@ -81,28 +84,31 @@ fn parse(input: String) -> (Guard, Vec<Vec<GridSquare>>) {
 }
 
 fn check_loop(guard: &Guard, map: &[Vec<GridSquare>], pos: (usize, usize)) -> bool {
-    let mut map = map.to_owned();
     let mut guard = *guard;
     let mut history = vec![];
-    map[pos.1][pos.0] = GridSquare::Full;
     history.push(guard);
+
+    let map_height = map.len();
+    let map_width = map[0].len();
 
     loop {
         let next_pos = guard.get_next_move();
-        let Some(row) = map.get(next_pos.1) else {
-            return false;
-        };
-        let Some(square) = row.get(next_pos.0) else {
-            return false;
-        };
-        match square {
-            GridSquare::Empty => {
-                guard.pos = next_pos;
+        if next_pos != pos {
+            if next_pos.1 >= map_height || next_pos.0 >= map_width {
+                return false;
+            } 
+            let square = map[next_pos.1][next_pos.0];
+            match square {
+                GridSquare::Empty => {
+                    guard.pos = next_pos;
+                }
+                GridSquare::Full => {
+                    guard.dir = guard.dir.rotate();
+                }
+                GridSquare::StartPos => unreachable!(),
             }
-            GridSquare::Full => {
-                guard.dir = guard.dir.rotate();
-            }
-            GridSquare::StartPos => unreachable!(),
+        } else {
+            guard.dir = guard.dir.rotate();
         }
         if history.contains(&guard) {
             return true;
@@ -141,7 +147,7 @@ pub fn part_1(input: String) -> Solution {
 
 pub fn part_2(input: String) -> Solution {
     let (original_guard, map) = parse(input);
-    let mut visited_squares = HashSet::new();
+    let mut to_check = HashMap::new();
     let mut guard = original_guard;
     loop {
         let next_pos = guard.get_next_move();
@@ -153,7 +159,7 @@ pub fn part_2(input: String) -> Solution {
         };
         match square {
             GridSquare::Empty => {
-                visited_squares.insert(next_pos);
+                to_check.entry(next_pos).or_insert(guard);
                 guard.pos = next_pos;
             }
             GridSquare::Full => {
@@ -163,10 +169,10 @@ pub fn part_2(input: String) -> Solution {
         }
     }
 
-    visited_squares.remove(&original_guard.pos);
-    let sol = visited_squares
+    to_check.remove(&original_guard.pos);
+    let sol = to_check
         .into_par_iter()
-        .filter(|square| check_loop(&original_guard, &map, *square))
+        .filter(|x| check_loop(&x.1, &map, x.0))
         .count();
 
     Solution::from(sol)
