@@ -26,10 +26,10 @@ pub fn part_1(input: String) -> Solution {
 
     while input.contains(&None) {
         let last = input.pop().unwrap();
-        if last == None {
+        if last.is_none() {
             continue;
         }
-        let free = input.iter().position(|value| *value == None).unwrap();
+        let free = input.iter().position(|value| value.is_none()).unwrap();
         input[free] = last;
     }
 
@@ -44,7 +44,7 @@ pub fn part_2(input: String) -> Solution {
     let mut input = parse(input);
     let max_id = input
         .iter()
-        .filter(|val| **val != None)
+        .filter(|val| val.is_some())
         .last()
         .unwrap()
         .unwrap();
@@ -57,7 +57,7 @@ pub fn part_2(input: String) -> Solution {
 
         let Some(start_pos) = input
             .windows(size)
-            .position(|window| window.iter().filter(|item| **item != None).count() == 0)
+            .position(|window| window.iter().filter(|item| item.is_some()).count() == 0)
         else {
             continue;
         };
