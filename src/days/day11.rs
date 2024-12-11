@@ -38,7 +38,7 @@ pub fn part_2(input: String) -> Solution {
     let input = parse(input);
     let mut nums = HashMap::new();
     for key in input {
-        *nums.entry(key).or_insert(0) += 1_u128;
+        *nums.entry(key).or_insert(0) += 1_usize;
     }
     for _ in 0..75 {
         let mut next = HashMap::new();
