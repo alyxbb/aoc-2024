@@ -32,7 +32,7 @@ fn get_adjacent(
     let Some(plot) = map.get_mut(coord) else {
         return (vec![], map);
     };
-    if plot.visited == true || plot.plant != plant {
+    if plot.visited || plot.plant != plant {
         return (vec![], map);
     }
 
@@ -168,7 +168,7 @@ pub fn part_1(input: String) -> Solution {
     loop {
         let mut found = false;
         for (coords, plot) in input.clone().iter() {
-            if plot.visited == true {
+            if plot.visited {
                 continue;
             }
             found = true;
@@ -194,7 +194,7 @@ pub fn part_2(input: String) -> Solution {
     loop {
         let mut found = false;
         for (coords, plot) in input.clone().iter() {
-            if plot.visited == true {
+            if plot.visited {
                 continue;
             }
             found = true;
