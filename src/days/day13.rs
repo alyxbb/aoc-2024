@@ -1,9 +1,7 @@
-use nalgebra::{Matrix2, Matrix2x1, MatrixXx2, SVector, Vector2};
+use nalgebra::{Matrix2, Matrix2x1, SVector, Vector2};
 use regex::Regex;
 
 use crate::Solution;
-
-pub struct Button {}
 
 pub struct Machine {
     a: SVector<f64, 2>,
@@ -64,8 +62,8 @@ pub fn part_2(input: String) -> Solution {
         let mtx = Matrix2::new(machine.a.x, machine.b.x, machine.a.y, machine.b.y);
         let inv = mtx.try_inverse().unwrap();
         let prize_mtx = Matrix2x1::new(
-            machine.prize.x + 10000000000000.0,
-            machine.prize.y + 10000000000000.0,
+            machine.prize.x + 10_000_000_000_000.0,
+            machine.prize.y + 10_000_000_000_000.0,
         );
         let ans = inv * prize_mtx;
         let a_presses = ans.get(0).unwrap();
