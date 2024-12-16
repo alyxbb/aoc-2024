@@ -50,13 +50,11 @@ impl PartialOrd for Node {
 impl Ord for Node {
     fn cmp(&self, other: &Self) -> Ordering {
         if self.visited == other.visited {
-            return self.distance.cmp(&other.distance);
+            self.distance.cmp(&other.distance)
+        } else if self.visited {
+            Ordering::Greater
         } else {
-            if self.visited {
-                return Ordering::Greater;
-            } else {
-                return Ordering::Less;
-            }
+            Ordering::Less
         }
     }
 }
@@ -140,7 +138,7 @@ pub fn part_1(input: String) -> Solution {
         nodes.sort_by_key(|k| k.1);
 
         let current = &nodes[0];
-        if current.1.visited == true {
+        if current.1.visited {
             panic!()
         }
 
@@ -214,7 +212,7 @@ pub fn part_2(input: String) -> Solution {
         nodes.sort_by_key(|k| k.1);
 
         let current = &nodes[0];
-        if current.1.visited == true {
+        if current.1.visited {
             break;
         }
 
