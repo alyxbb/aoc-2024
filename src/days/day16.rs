@@ -125,15 +125,6 @@ pub fn part_1(input: String) -> Solution {
 
     'outer: loop {
         let mut nodes: Vec<_> = map.clone().into_iter().collect();
-        println!(
-            "{}/{}",
-            nodes
-                .iter()
-                .filter(|node| node.1.visited)
-                .collect::<Vec<_>>()
-                .len(),
-            nodes.len()
-        );
         nodes.sort_by_key(|k| k.1);
 
         let current = &nodes[0];
@@ -199,15 +190,6 @@ pub fn part_2(input: String) -> Solution {
 
     loop {
         let mut nodes: Vec<_> = map.clone().into_iter().collect();
-        println!(
-            "{}/{}",
-            nodes
-                .iter()
-                .filter(|node| node.1.visited)
-                .collect::<Vec<_>>()
-                .len(),
-            nodes.len()
-        );
         nodes.sort_by_key(|k| k.1);
 
         let current = &nodes[0];
