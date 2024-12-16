@@ -64,7 +64,7 @@ pub fn part_1(input: String) -> Solution {
             quardrants[2] += 1;
         } else if robot.pos[0] > MAP_SIZE[0] / 2 && robot.pos[1] > MAP_SIZE[1] / 2 {
             quardrants[3] += 1;
-        } 
+        }
     }
     let sol = quardrants.into_iter().reduce(|acc, e| acc * e).unwrap();
     Solution::from(sol)
