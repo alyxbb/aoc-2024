@@ -1,5 +1,4 @@
 use nalgebra::Vector2;
-use rayon::iter::Map;
 
 use crate::Solution;
 
@@ -36,7 +35,7 @@ fn parse(input: String) -> (Vec<Vec<MapContent>>, Vec<Direction>, Vector2<i32>) 
             'v' => Direction::South,
             '<' => Direction::West,
             '\n' => continue,
-            x => panic!(),
+            _ => panic!(),
         });
     }
     (map_vec, instructions_vec, coords)
@@ -81,10 +80,8 @@ fn do_move(
     map: &mut Vec<Vec<MapContent>>,
     first: bool,
 ) -> bool {
-    if first {
-        if !test_move(location, dir, map) {
-            return false;
-        }
+    if first && !test_move(location, dir, map) {
+        return false;
     }
 
     let loc = (location.x as usize, location.y as usize);
@@ -103,10 +100,10 @@ fn do_move(
         }
         _ => panic!(),
     }
-    return true;
+    true
 }
 
-fn print_map(map: &Vec<Vec<MapContent>>, bot: &Vector2<i32>) {
+fn print_map(map: &[Vec<MapContent>], bot: &Vector2<i32>) {
     for (y, line) in map.iter().enumerate() {
         for (x, item) in line.iter().enumerate() {
             if bot.x == x.try_into().unwrap() && bot.y == y.try_into().unwrap() {

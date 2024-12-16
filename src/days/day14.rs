@@ -64,8 +64,7 @@ pub fn part_1(input: String) -> Solution {
             quardrants[2] += 1;
         } else if robot.pos[0] > MAP_SIZE[0] / 2 && robot.pos[1] > MAP_SIZE[1] / 2 {
             quardrants[3] += 1;
-        } else {
-        }
+        } 
     }
     let sol = quardrants.into_iter().reduce(|acc, e| acc * e).unwrap();
     Solution::from(sol)
@@ -85,7 +84,7 @@ pub fn part_2(input: String) -> Solution {
             .collect::<Variance>()
             .sample_variance();
 
-        if (x_var < 700.0 && y_var < 700.0) {
+        if x_var < 700.0 && y_var < 700.0 {
             return Solution::from(i);
         }
         for robot in &mut input {
