@@ -1,5 +1,3 @@
-use rayon::iter::{IntoParallelIterator, ParallelIterator};
-
 use crate::Solution;
 
 fn parse(input: String) -> Computer {
@@ -64,9 +62,9 @@ impl TryFrom<u8> for Opcode {
     }
 }
 
-impl Into<u8> for Opcode {
-    fn into(self) -> u8 {
-        match self {
+impl From<Opcode> for u8 {
+    fn from(val: Opcode) -> Self {
+        match val {
             Opcode::Adv => 0,
             Opcode::Bxl => 1,
             Opcode::Bst => 2,
@@ -91,17 +89,16 @@ impl Computer {
 
             match opcode {
                 Opcode::Adv => {
-                    self.reg_a = self.reg_a
-                        / (2_usize.pow(self.get_combo_operand(operand).try_into().unwrap()))
+                    self.reg_a /= 2_usize.pow(self.get_combo_operand(operand).try_into().unwrap())
                 }
-                Opcode::Bxl => self.reg_b = self.reg_b ^ operand as usize,
+                Opcode::Bxl => self.reg_b ^= operand as usize,
                 Opcode::Bst => self.reg_b = self.get_combo_operand(operand) % 8,
                 Opcode::Jnz => {
                     if self.reg_a != 0 {
                         self.pc = operand as usize
                     }
                 }
-                Opcode::Bxc => self.reg_b = self.reg_b ^ self.reg_c,
+                Opcode::Bxc => self.reg_b ^= self.reg_c,
                 Opcode::Out => output.push(self.get_combo_operand(operand) % 8),
                 Opcode::Bdv => {
                     self.reg_b = self.reg_a
@@ -150,7 +147,7 @@ fn parse2(input: String) -> Vec<u64> {
 
     let instructions = lines[3]
         .split(",")
-        .map(|val| val.parse::<u8>().unwrap().try_into().unwrap())
+        .map(|val| val.parse::<u8>().unwrap().into())
         .collect();
     instructions
 }
@@ -159,10 +156,10 @@ fn test_validity(num: u64, goal: &[u64]) -> Vec<u64> {
     for i in 0..8 {
         let a = (num >> 3) + (i << 7);
         let mut b = a % 8;
-        b = b ^ 1;
+        b ^= 1;
         let c = a / 2_u64.pow(b.try_into().unwrap());
-        b = b ^ c;
-        b = b ^ 4;
+        b ^= c;
+        b ^= 4;
         if b % 8 == goal[0] {
             if goal.len() == 1 {
                 res.push(a);
@@ -185,10 +182,10 @@ pub fn part_2(input: String) -> Solution {
     let mut valid_sols = vec![];
     for i in 0..(2 << 9) {
         let mut b: u64 = i % 8;
-        b = b ^ 1;
+        b ^= 1;
         let c = i / (2_u64.pow(b.try_into().unwrap()));
-        b = b ^ c;
-        b = b ^ 4;
+        b ^= c;
+        b ^= 4;
         if b % 8 == goal[0] {
             valid_sols.push(i);
         }
