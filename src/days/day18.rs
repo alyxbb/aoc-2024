@@ -1,5 +1,3 @@
-use std::usize;
-
 use crate::Solution;
 
 #[derive(Clone, Copy, Debug)]
@@ -40,12 +38,12 @@ pub fn part_1(input: String) -> Solution {
     for i in &input[0..1024] {
         nodes[i.1][i.0].passable = false;
     }
-    while nodes[70][70].visited == false {
+    while !nodes[70][70].visited {
         let mut min_loc = (0, 0);
         let mut min = usize::MAX;
         for (y, line) in nodes.iter().enumerate() {
             for (x, node) in line.iter().enumerate() {
-                if node.passable == true && node.visited == false && node.distance < min {
+                if node.passable && !node.visited && node.distance < min {
                     min = node.distance;
                     min_loc = (x, y);
                 }
@@ -66,8 +64,8 @@ pub fn part_1(input: String) -> Solution {
             let Some(next_node) = line.get_mut(loc.0) else {
                 continue;
             };
-            if next_node.visited == false
-                && next_node.passable == true
+            if !next_node.visited
+                && next_node.passable
                 && node.distance + 1 < next_node.distance
             {
                 next_node.distance = node.distance + 1;
@@ -102,12 +100,12 @@ pub fn part_2(input: String) -> Solution {
     'outer: loop {
         initial_nodes[input[i].1][input[i].0].passable = false;
         let mut nodes = initial_nodes.clone();
-        while nodes[70][70].visited == false {
+        while !nodes[70][70].visited {
             let mut min_loc = (0, 0);
             let mut min = usize::MAX;
             for (y, line) in nodes.iter().enumerate() {
                 for (x, node) in line.iter().enumerate() {
-                    if node.passable == true && node.visited == false && node.distance < min {
+                    if node.passable && !node.visited && node.distance < min {
                         min = node.distance;
                         min_loc = (x, y);
                     }
@@ -132,8 +130,8 @@ pub fn part_2(input: String) -> Solution {
                 let Some(next_node) = line.get_mut(loc.0) else {
                     continue;
                 };
-                if next_node.visited == false
-                    && next_node.passable == true
+                if !next_node.visited
+                    && next_node.passable
                     && node.distance + 1 < next_node.distance
                 {
                     next_node.distance = node.distance + 1;
