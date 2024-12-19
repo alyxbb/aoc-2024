@@ -1,5 +1,3 @@
-use std::collections::HashSet;
-
 use cached::proc_macro::cached;
 
 use crate::Solution;
@@ -43,12 +41,12 @@ fn parse(input: String) -> (Vec<Vec<Color>>, Vec<Vec<Color>>) {
 
 #[cached]
 fn check_design_possible(design: Vec<Color>, towels: Vec<Vec<Color>>) -> bool {
-    if design.len() == 0 {
+    if design.is_empty() {
         return true;
     }
 
     for towel in &towels {
-        if design.starts_with(&towel) {
+        if design.starts_with(towel) {
             let possible = check_design_possible(design[towel.len()..].to_vec(), towels.clone());
             if possible {
                 return true;
@@ -60,13 +58,13 @@ fn check_design_possible(design: Vec<Color>, towels: Vec<Vec<Color>>) -> bool {
 
 #[cached]
 fn count_design_possible(design: Vec<Color>, towels: Vec<Vec<Color>>) -> usize {
-    if design.len() == 0 {
+    if design.is_empty() {
         return 1;
     }
     let mut tot = 0;
 
     for towel in &towels {
-        if design.starts_with(&towel) {
+        if design.starts_with(towel) {
             tot += count_design_possible(design[towel.len()..].to_vec(), towels.clone());
         }
     }
