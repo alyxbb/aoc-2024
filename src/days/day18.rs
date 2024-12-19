@@ -64,10 +64,7 @@ pub fn part_1(input: String) -> Solution {
             let Some(next_node) = line.get_mut(loc.0) else {
                 continue;
             };
-            if !next_node.visited
-                && next_node.passable
-                && node.distance + 1 < next_node.distance
-            {
+            if !next_node.visited && next_node.passable && node.distance + 1 < next_node.distance {
                 next_node.distance = node.distance + 1;
             }
         }
